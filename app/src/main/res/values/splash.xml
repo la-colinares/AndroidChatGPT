@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.AndroidChatGPT.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/frostee</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_android_chat_gpt</item>
+        <item name="postSplashScreenTheme">@style/Theme.AndroidChatGPT</item>
+    </style>
+</resources>
