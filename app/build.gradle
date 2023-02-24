@@ -30,6 +30,12 @@ android {
             debuggable true
             crunchPngs false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            Properties props = new Properties()
+            props.load(project.rootProject.file("local.properties").newDataInputStream())
+
+            // Put your OpenAI Secret API Key in the 3rd parameter
+            buildConfigField("String", "OPEN_AI_AUTHORIZATION_KEY", "\"${props.getProperty("OPEN_AI_AUTHORIZATION_KEY")}\"")
         }
         release {
             shrinkResources true
