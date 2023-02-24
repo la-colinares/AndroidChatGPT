@@ -105,6 +105,9 @@ dependencies {
 
     // Kotlin Json Serialization
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1'
+
+    // Lottie animations
+    implementation "com.airbnb.android:lottie-compose:4.1.0"
 }
 
 kapt {
