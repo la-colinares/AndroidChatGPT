@@ -17,10 +17,12 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.lacolinares.androidchatgpt.R
 import com.lacolinares.androidchatgpt.presentation.view.theme.Frostee
 import com.lacolinares.androidchatgpt.presentation.view.theme.MineralGreen
 import com.lacolinares.androidchatgpt.presentation.view.theme.SilverChalice
@@ -44,7 +46,7 @@ fun AppBottomBar(
         val focusManager = LocalFocusManager.current
         var text by remember { mutableStateOf("") }
 
-        if (WindowInsets.isImeVisible.not()){
+        if (WindowInsets.isImeVisible.not()) {
             focusManager.clearFocus()
         }
 
@@ -53,16 +55,16 @@ fun AppBottomBar(
             onValueChange = { text = it },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(50.dp)
+                .wrapContentHeight()
                 .padding(horizontal = 16.dp, vertical = 0.dp)
                 .weight(9f)
                 .focusRequester(focusRequester),
             placeholder = {
                 Text(
-                    text = "Type a message...",
+                    text = stringResource(R.string.type_message_hint),
                     color = MineralGreen,
                     fontWeight = FontWeight.Medium,
-                    fontSize = 14.sp,
+                    fontSize = 16.sp,
                     modifier = Modifier.align(Alignment.CenterVertically)
                 )
             },
@@ -76,15 +78,16 @@ fun AppBottomBar(
                     )
                 }
             },
+            maxLines = 5,
             shape = RoundedCornerShape(50.dp),
             colors = TextFieldDefaults.textFieldColors(
                 containerColor = Frostee,
                 focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor  = Color.Transparent,
-                disabledIndicatorColor  = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                disabledIndicatorColor = Color.Transparent,
             )
         )
-        if (text.isNotEmpty() && text.isNotBlank()){
+        if (text.isNotEmpty() && text.isNotBlank()) {
             Icon(
                 imageVector = Icons.Filled.Send,
                 contentDescription = null,

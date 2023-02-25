@@ -11,6 +11,7 @@ import com.lacolinares.androidchatgpt.domain.model.ChatMessage
 import com.lacolinares.androidchatgpt.domain.repository.ChatRepository
 import com.lacolinares.androidchatgpt.utils.AppConstants
 import com.lacolinares.androidchatgpt.utils.AppJson
+import com.lacolinares.androidchatgpt.utils.MessageType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.decodeFromString
@@ -33,11 +34,19 @@ class ChatRepositoryImpl @Inject constructor(
             presencePenalty = AppConstants.PRESENCE_PENALTY
         )
 
-        val chatMessageResponse = api.sendMessage(
-            authorization = AppConstants.AUTHORIZATION,
-            contentType = AppConstants.APPLICATION_TYPE,
-            body = request
-        ).toMessage()
+        val chatMessageResponse = try {
+            api.sendMessage(
+                authorization = AppConstants.AUTHORIZATION,
+                contentType = AppConstants.APPLICATION_TYPE,
+                body = request
+            ).toMessage()
+        } catch (e: Exception) {
+            ChatMessage(
+                messageType = MessageType.AI,
+                message = AppConstants.DEFAULT_AI_MESSAGE,
+                dateTime = System.currentTimeMillis()
+            )
+        }
 
         saveMessage(chatMessage = chatMessageResponse)
     }

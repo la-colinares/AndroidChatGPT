@@ -5,6 +5,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
@@ -44,17 +45,14 @@ fun ChatMessagesList(
             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            items(chatMessages, key = { it.dateTime }) { item ->
-                when (item.messageType) {
-                    MessageType.USER -> UserChat(item.message)
-                    MessageType.AI -> AiChat(item.message)
-                }
+            items(chatMessages, key = { it.id }) {
+                CardMessage(it)
             }
         }
 
-        LaunchedEffect(key1 = keyboardIsOpen, key2 = chatMessages.size){
+        LaunchedEffect(key1 = keyboardIsOpen, key2 = chatMessages.size) {
             coroutineScope.launch {
-                if (keyboardIsOpen || chatMessages.isNotEmpty()){
+                if (keyboardIsOpen || chatMessages.isNotEmpty()) {
                     listState.animateScrollToItem(chatMessages.lastIndex)
                 }
             }
@@ -62,35 +60,26 @@ fun ChatMessagesList(
     }
 }
 
-@Preview(showBackground = true, backgroundColor = 0xFFE2F4E4)
 @Composable
-private fun UserChat(message: String = "") {
-    Box(
-        modifier = Modifier.fillMaxWidth(),
-        contentAlignment = Alignment.CenterEnd
-    ) {
-        Card(
-            modifier = Modifier.wrapContentWidth().padding(start = 32.dp),
-            shape = RoundedCornerShape(12.dp),
-            colors = CardDefaults.cardColors(containerColor = MineralGreen)
-        ) {
-            MessageText(text = message, color = White)
-        }
-    }
-}
+private fun CardMessage(chatMessage: ChatMessage) {
+    val isUser = chatMessage.messageType == MessageType.USER
+    val boxAlignment = if (isUser) Alignment.CenterEnd else Alignment.CenterStart
+    val cardPadding = if (isUser) Modifier.padding(start = 32.dp) else Modifier.padding(end = 32.dp)
+    val cardColor = if (isUser) MineralGreen else White
+    val textColor = if (isUser) White else MineralGreen
 
-@Composable
-private fun AiChat(message: String = "") {
     Box(
         modifier = Modifier.fillMaxWidth(),
-        contentAlignment = Alignment.CenterStart
+        contentAlignment = boxAlignment
     ) {
         Card(
-            modifier = Modifier.wrapContentWidth().padding(end = 32.dp),
+            modifier = Modifier
+                .wrapContentWidth()
+                .then(cardPadding),
             shape = RoundedCornerShape(12.dp),
-            colors = CardDefaults.cardColors(containerColor = White)
+            colors = CardDefaults.cardColors(containerColor = cardColor)
         ) {
-            MessageText(text = message, color = MineralGreen)
+            MessageText(text = chatMessage.message, color = textColor)
         }
     }
 }
@@ -98,15 +87,17 @@ private fun AiChat(message: String = "") {
 @Preview(showBackground = true, backgroundColor = 0xFFE2F4E4)
 @Composable
 private fun MessageText(text: String = "", color: Color = MineralGreen) {
-    Text(
-        text = text,
-        modifier = Modifier
-            .wrapContentWidth()
-            .padding(12.dp),
-        color = color,
-        fontWeight = FontWeight.Medium,
-        fontSize = 14.sp,
-        textAlign = TextAlign.Start,
-        lineHeight = 16.sp
-    )
+    SelectionContainer {
+        Text(
+            text = text.trimMargin(),
+            modifier = Modifier
+                .wrapContentWidth()
+                .padding(12.dp),
+            color = color,
+            fontWeight = FontWeight.Medium,
+            fontSize = 14.sp,
+            textAlign = TextAlign.Start,
+            lineHeight = 16.sp
+        )
+    }
 }

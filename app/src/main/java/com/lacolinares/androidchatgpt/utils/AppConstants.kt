@@ -44,4 +44,15 @@ object AppConstants {
      * Increases the model's likelihood to talk about new topics.
      */
     const val PRESENCE_PENALTY = 0.0
+
+    const val DEFAULT_AI_MESSAGE = "Sorry I didn't get that, please try again."
+
+    object IDGenerator{
+        fun getUniqueKey(): String{
+            val allowedChars = ('A'..'Z') + ('a'..'z') + ('0'..'9')
+            return (1..10)
+                .map { allowedChars.random() }
+                .joinToString("")
+        }
+    }
 }
