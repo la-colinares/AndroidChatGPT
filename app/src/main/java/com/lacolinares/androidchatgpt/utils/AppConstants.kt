@@ -55,4 +55,11 @@ object AppConstants {
                 .joinToString("")
         }
     }
+
+    object Urls{
+        const val LINK_OPEN_AI = "https://platform.openai.com/examples"
+        const val LINK_BUILD_CHAT = "https://www.youtube.com/watch?v=OTK_M_vtbO0&t=749s"
+        const val LINK_SOURCE_CODE = "https://github.com/la-colinares/AndroidChatGPT"
+        const val LINK_DEVELOPER_WEBSITE = "https://la-colinares.github.io/portfolio/"
+    }
 }

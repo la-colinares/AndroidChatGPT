@@ -1,7 +1,15 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Android ChatGPT</string>
     <string name="toolbar_name">Android Chat GPT Application</string>
     <string name="empty_message_title">No Conversation Yet</string>
     <string name="empty_message_description">Start your conversation by\ntyping your message below.</string>
-    <string name="type_message_hint">Type a message...</string>
+    <string name="type_message_hint" tools:ignore="TypographyEllipsis">Type a message...</string>
+    <string name="about_app">Android Chat GPT is an application that demonstrate the usage of OpenAI Q&amp;A API with Jetpack Compose.</string>
+    <string name="references">References:</string>
+    <string name="open_ai_api">OpenAI API</string>
+    <string name="build_android_chat">Build Android Chat GPT</string>
+    <string name="source_code">Source Code:</string>
+    <string name="github_source_code">View in Github</string>
+    <string name="developer">Developer:</string>
+    <string name="developer_name">Lowi Adrian Colinares</string>
 </resources>
